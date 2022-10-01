@@ -9,7 +9,8 @@
         <hr>
         <form name="login_form" action="{{ .action }}" method="post">
             <input type="id" name="user_id" placeholder="User ID"><br>
-            <input type="password" name="password"placeholder="Password">
+            <input type="password" name="password"placeholder="Password"><br>
+            <input type="checkbox" name="persistent">Stay signed in<br>
             <button type="submit">Login</button>
         </form>
         {{ .message }}

@@ -31,8 +31,13 @@ func loginAttemptHandler(ctx *gin.Context) {
 		return
 	}
 
+	maxAge := 0
+	if ctx.Request.FormValue("persistent") == "on" {
+		maxAge = (60 * 60 * 24) * 30 // One Month
+	}
+
 	authnSess.Set(USER_ID, user.Id)
-	authnSess.Options(sessions.Options{MaxAge: (60 * 60 * 24) * 30}) // One Month
+	authnSess.Options(sessions.Options{MaxAge: maxAge})
 	if err := authnSess.Save(); err != nil {
 		logger.Error(err.Error())
 	}
