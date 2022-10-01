@@ -69,7 +69,9 @@ func authorizationIssueCaller(ctx *gin.Context) {
 		logger.Error(err.Error())
 	}
 
-	authzIssueRes, authleteErr := authleteApi.AuthorizationIssue(&dto.AuthorizationIssueRequest{Ticket: ticket, Subject: "hoge"})
+	authnSess := sessions.DefaultMany(ctx, AUTHENTICATION_SESSION)
+	subject := authnSess.Get(USER_ID).(string)
+	authzIssueRes, authleteErr := authleteApi.AuthorizationIssue(&dto.AuthorizationIssueRequest{Ticket: ticket, Subject: subject})
 	if authleteErr != nil {
 		logger.Error(authleteErr.Error())
 		ctx.String(http.StatusInternalServerError, "Internal Server Error")
